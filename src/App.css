@@ -1,38 +1,98 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Tilt+Warp&display=swap');
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Full height */
+  overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  position: relative;
+  height: 100vh; /* Adjust the height to fit the viewport */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.button-go {
+  width: 50%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+
+.card-body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.centered-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: 'center';
+  width: 25%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.328); /* Semi-transparent white */
+  backdrop-filter: blur(10px); /* Blurred background */
+  padding: 20px;
+  text-align: center;
+  z-index: 2; /* Above the map */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.card-text {
+  text-align: 'center';
+  font-size: 1em;
+  font-family: 'DM Sans', sans-serif;
+  color: rgb(0, 0, 0);
+}
+
+.header {
+  position: absolute;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0); /* Transparent background */
+  padding: 20px 25px;
+  font-size: 2em;
+  font-family: 'Tilt Warp', sans-serif;
+  z-index: 1; /* Ensure it appears above the map */
+  color: white; /* White text color */
+  text-align: left; /* Align text to the left */
+}
+
+.footer {
+  position: absolute;
+  bottom: 0; /* Position at the bottom */
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5); /* Transparent background */
+  z-index: 1; /* Ensure it appears above the map */
+}
+
+.header {
+  top: 0; /* Position at the top */
+}
+
+.footer {
+  bottom: 10em; /* Position at the bottom */
+}
+
+.map-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .centered-card {
+    
+    width: 75%;
+    
   }
 }
