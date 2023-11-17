@@ -137,9 +137,6 @@ questions = {	"0": {
     }
 }
 
-next_question_id = "0"
-
-
 @app.route('/reset')
 def reset_question():
     session['next_question_id'] = "0"
