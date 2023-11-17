@@ -168,9 +168,14 @@ def handle_response():
     print(response)
 
     current_question_id = session.get('next_question_id', "0")
+
     current_question = questions.get(current_question_id, {})
 
+    print(current_question)
+
     next_question_key = current_question.get('questions', {}).get(response)
+
+    print(next_question_key)
 
     #if next_question_key:
     if next_question_key == 'end':
