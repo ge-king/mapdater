@@ -181,6 +181,8 @@ def handle_response():
         else:
             session['next_question_id'] = next_question_key
             session.modified = True
+            print("next question id set")
+            print(session['next_question_id'])
             next_question_data = questions.get(next_question_key, {})
             return jsonify(next_question_data)
     else:
