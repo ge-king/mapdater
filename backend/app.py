@@ -140,6 +140,7 @@ questions = {	"0": {
 @app.route('/reset')
 def reset_question():
     session['next_question_id'] = "0"
+    print("reset qID")
     return jsonify({"message": "Question reset to 1"})
 
 
@@ -154,6 +155,7 @@ def get_question(question_id):
 
 @app.route('/api/initial-question')
 def get_initial_question():
+    print("reset qID")
     initial_question_data = questions.get(session.get('next_question_id', "0"), {})
     session['next_question_id'] = "1"
     return jsonify(initial_question_data)
