@@ -1,11 +1,17 @@
-from flask import Flask, request
+from flask import Flask, session
+from flask_session import Session
+from flask_cors import CORS
+import redis
+import os
 
 app = Flask(__name__)
-from flask import jsonify
-from flask_cors import CORS
-
 CORS(app)
 
+# Configure Flask-Session for Redis
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_REDIS'] = redis.from_url(os.environ.get('REDIS_URL'))
+
+Session(app)
 questions = {	"0": {
         "initial": True,
         "text": "Welcome to MapDate. Are you ready to answer some questions to figure out exactly when your map was made?",
@@ -136,14 +142,12 @@ next_question_id = "0"
 
 @app.route('/reset')
 def reset_question():
-    global next_question_id
-    next_question_id = "0"
+    session['next_question_id'] = "0"
     return jsonify({"message": "Question reset to 1"})
 
 
 @app.route('/question/<question_id>')
 def get_question(question_id):
-    # Return the question corresponding to the question_id
     question_data = questions.get(question_id, {})
     if question_data:
         return jsonify(question_data)
@@ -153,33 +157,28 @@ def get_question(question_id):
 
 @app.route('/api/initial-question')
 def get_initial_question():
-    global next_question_id
-    initial_question_data = questions.get(next_question_id, {})
+    initial_question_data = questions.get(session.get('next_question_id', "0"), {})
     return jsonify(initial_question_data)
 
 
 @app.route('/api/response', methods=['POST'])
 def handle_response():
-    global next_question_id
     data = request.json
     response = data.get('response')
 
-    # Get the current question object
-    current_question = questions.get(next_question_id, {})
-    # Get the next question ID from the current question's possible answers
+    current_question_id = session.get('next_question_id', "0")
+    current_question = questions.get(current_question_id, {})
+
     next_question_key = current_question.get('questions', {}).get(response)
 
-    # If there is a next question, update next_question_id
     if next_question_key:
         if next_question_key == 'end':
-            # Handle the end of the flow if necessary
             return jsonify({"message": "End of the questionnaire."})
         else:
-            next_question_id = next_question_key
-            next_question_data = questions.get(next_question_id, {})
+            session['next_question_id'] = next_question_key
+            next_question_data = questions.get(next_question_key, {})
             return jsonify(next_question_data)
     else:
-        # If the response is not found in the current question's possible answers
         return jsonify({"error": "Invalid answer or end of flow"}), 400
 
 
