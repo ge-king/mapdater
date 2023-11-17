@@ -158,6 +158,7 @@ def get_question(question_id):
 @app.route('/api/initial-question')
 def get_initial_question():
     initial_question_data = questions.get(session.get('next_question_id', "0"), {})
+    session['next_question_id'] = "0"
     return jsonify(initial_question_data)
 
 
