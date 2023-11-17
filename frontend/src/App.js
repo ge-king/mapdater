@@ -33,7 +33,7 @@ const lightStyle = 'mapbox://styles/georz/clp0d043500i201qjfixs7wyu'; // Replace
 
 
 const getInitialQuestion = () => {
-  axios.get('http://localhost:5000/api/initial-question')
+  axios.get('https://mapdate-04c9ad419d4c.herokuapp.com/api/initial-question')
     .then((response) => {
       // Handle the initial question
       console.log('Initial question:', response.data);
@@ -44,7 +44,7 @@ const getInitialQuestion = () => {
 };
 
 const resetQuestion = () => {
-  axios.get('http://localhost:5000/reset')
+  axios.get('https://mapdate-04c9ad419d4c.herokuapp.com/reset')
     .then((response) => {
       console.log(response.data.message);
       getInitialQuestion(); // Call getInitialQuestion after reset
@@ -63,7 +63,7 @@ const handleAnswerButtonClick = (answerKey) => {
 };
 
 const sendResponse = (answerKey) => {
-  axios.post('http://localhost:5000/api/response', { response: answerKey })
+  axios.post('https://mapdate-04c9ad419d4c.herokuapp.com/api/response', { response: answerKey })
     .then((response) => {
       console.log('New question:', response.data);
       setQuestionData(response.data); // Update question data with the new question
@@ -138,7 +138,7 @@ const sendResponse = (answerKey) => {
   }, [darkMode]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/question/${currentQuestionId}`)
+    axios.get(`https://mapdate-04c9ad419d4c.herokuapp.com/question/${currentQuestionId}`)
       .then(response => setQuestionData(response.data))
       .catch(error => console.error('Error fetching data:', error));
   }, [currentQuestionId]);
