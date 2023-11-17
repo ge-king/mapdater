@@ -172,12 +172,12 @@ def handle_response():
     next_question_key = current_question.get('questions', {}).get(response)
 
     #if next_question_key:
-        if next_question_key == 'end':
-            return jsonify({"message": "End of the questionnaire."})
-        else:
-            session['next_question_id'] = next_question_key
-            next_question_data = questions.get(next_question_key, {})
-            return jsonify(next_question_data)
+    if next_question_key == 'end':
+        return jsonify({"message": "End of the questionnaire."})
+    else:
+        session['next_question_id'] = next_question_key
+        next_question_data = questions.get(next_question_key, {})
+        return jsonify(next_question_data)
     #else:
         #return jsonify({"error": "Invalid answer or end of flow"}), 400
 
