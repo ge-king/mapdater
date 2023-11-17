@@ -10,6 +10,7 @@ CORS(app)
 # Configure Flask-Session for Redis
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_REDIS'] = redis.from_url(os.environ.get('REDIS_URL'))
+app.config['PERMANENT_SESSION_LIFETIME'] = 86400
 
 Session(app)
 questions = {	"0": {
@@ -139,7 +140,9 @@ questions = {	"0": {
 
 @app.route('/reset')
 def reset_question():
-    session['next_question_id'] = "0"
+    if 'next_question_id' not in session:
+        session['next_question_id'] = "0"
+        session.modified = True
     print("reset qID")
     return jsonify({"message": "Question reset to 1"})
 
@@ -157,7 +160,9 @@ def get_question(question_id):
 def get_initial_question():
     print("reset qID")
     initial_question_data = questions.get(session.get('next_question_id', "0"), {})
-    session['next_question_id'] = "1"
+    if 'next_question_id' not in session:
+        session['next_question_id'] = "1"
+        session.modified = True
     return jsonify(initial_question_data)
 
 
@@ -183,6 +188,8 @@ def handle_response():
             session.modified = True
             print("next question id set")
             print(session['next_question_id'])
+            print("next question id get check")
+            print(f"Session next_question_id: {session.get('next_question_id')}")
             next_question_data = questions.get(next_question_key, {})
             return jsonify(next_question_data)
     else:
