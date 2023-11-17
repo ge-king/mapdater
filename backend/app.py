@@ -4,7 +4,7 @@ app = Flask(__name__)
 from flask import jsonify
 from flask_cors import CORS
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 questions = {	"0": {
         "initial": True,
