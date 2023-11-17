@@ -168,6 +168,8 @@ def handle_response():
     response = data.get('response', '')
     print(response)
 
+    session['next_question_id'] = str(int(session['next_question_id']) + 1)
+
     current_question_id = session.get('next_question_id', "0")
 
     current_question = questions.get(current_question_id, {})
