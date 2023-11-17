@@ -3,7 +3,6 @@ from flask_session import Session
 from flask_cors import CORS
 import redis
 import os
-import secrets
 
 app = Flask(__name__)
 CORS(app)
@@ -12,7 +11,7 @@ CORS(app)
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_REDIS'] = redis.from_url(os.environ.get('REDIS_URL'))
 app.config['PERMANENT_SESSION_LIFETIME'] = 86400
-app.config['SECRET_KEY'] = secrets.token_urlsafe(16)
+app.config['SECRET_KEY'] = os.urandom(12)
 
 Session(app)
 questions = {	"0": {
