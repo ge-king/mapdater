@@ -22,7 +22,16 @@ html, body {
 }
 
 
+.button-group {
+  display: flex;
+  justify-content: center; /* Adjust as needed */
+  gap: 10px; /* Space between buttons */
+}
 
+.button-no {
+  background-color: red; /* To make the 'No' button red */
+  color: white; /* Adjust text color if needed */
+}
 .card-body {
   display: flex;
   flex-direction: column;
