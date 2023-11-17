@@ -164,7 +164,7 @@ def get_initial_question():
 @app.route('/api/response', methods=['POST'])
 def handle_response():
     data = request.json
-    response = data.get('response')
+    response = data.get('response', '').lower()
 
     current_question_id = session.get('next_question_id', "0")
     current_question = questions.get(current_question_id, {})
