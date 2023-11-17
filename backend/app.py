@@ -165,30 +165,28 @@ def get_initial_question():
 @app.route('/api/response', methods=['POST'])
 def handle_response():
     data = request.json
-    response = data.get('response', '')
-    print(response)
-
-    session['next_question_id'] = str(int(session['next_question_id']) + 1)
+    response = data.get('response', '').lower()
 
     current_question_id = session.get('next_question_id', "0")
+    print(f"Current Question ID: {current_question_id}")
 
     current_question = questions.get(current_question_id, {})
-
-    print(current_question)
+    print(f"Current Question: {current_question}")
 
     next_question_key = current_question.get('questions', {}).get(response)
+    print(f"Next Question Key: {next_question_key}")
 
-    print(next_question_key)
-
-    #if next_question_key:
-    if next_question_key == 'end':
-        return jsonify({"message": "End of the questionnaire."})
+    if next_question_key:
+        if next_question_key == 'end':
+            return jsonify({"message": "End of the questionnaire."})
+        else:
+            session['next_question_id'] = next_question_key
+            session.modified = True
+            next_question_data = questions.get(next_question_key, {})
+            return jsonify(next_question_data)
     else:
-        session['next_question_id'] = next_question_key
-        next_question_data = questions.get(next_question_key, {})
-        return jsonify(next_question_data)
-    #else:
-        #return jsonify({"error": "Invalid answer or end of flow"}), 400
+        return jsonify({"error": "Invalid answer or end of flow"}), 400
+
 
 
 if __name__ == "__main__":
