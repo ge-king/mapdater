@@ -46,7 +46,7 @@ const handleAnswerButtonClick = (answerKey) => {
 };
 
 useEffect(() => {
-  getQuestion(currentQuestionId); // Fetch initial question on component mount
+  getQuestion(currentQuestionId); 
 }, [currentQuestionId]);
 
 
@@ -66,7 +66,7 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if (map.current) return; // Initialize map only once
+    if (map.current) return; 
   
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -114,16 +114,16 @@ useEffect(() => {
   }, [darkMode]);
 
   useEffect(() => {
-    axios.get(`localhost:5000/question/${currentQuestionId}`) // Ensure correct protocol and port
+    axios.get(`https://mapdate-04c9ad419d4c.herokuapp.com/question/${currentQuestionId}`) 
       .then(response => {
         setQuestionData(response.data);
   
-        // Check if map is initialized and question has valid latlng data
+      
         if (map.current && response.data.latlng && response.data.latlng.length === 2) {
           const [latitude, longitude] = response.data.latlng;
           map.current.flyTo({
             center: [longitude, latitude],
-            zoom: 3
+            zoom: 2 
           });
         }
       })
@@ -139,8 +139,8 @@ useEffect(() => {
           <h1>MAPDATE</h1>
           <Button isIconOnly onClick={toggleDarkMode}>
             {darkMode ? 
-              <LightModeIcon/> : // Icon for light mode
-              <DarkModeIcon/>    // Icon for dark mode
+              <LightModeIcon/> : 
+              <DarkModeIcon/>   
             }
           </Button>
         </header>
@@ -154,8 +154,8 @@ useEffect(() => {
               <Button
                 key={answerKey}
                 fullWidth={false}
-                variant="ghost"
-                color={answerKey === 'no' ? 'error' : 'success'}
+                variant="solid"
+                color={answerKey === 'no' ? 'error' : 'primary'}
                 className={`button-${answerKey}`}
                 onClick={() => handleAnswerButtonClick(answerKey)}
               >
@@ -165,8 +165,8 @@ useEffect(() => {
           </div>
         </CardBody>
         </Card>
-        <footer>
-          Made by George
+        <footer className="footer">
+          Built in <a href="https://react.dev/">React.</a> Uses <a href="https://www.mapbox.com/">Mapbox API.</a> Deployed on <a href="https://vercel.com/dashboard">Vercel</a> and <a href="https://heroku.com/">Heroku.</a> Questions by <a href="https://xkcd.com/1688/">XKCD.</a> Made by <b><a href="https://georgeking.uk/">George.</a></b>
         </footer>
       </div>
     </NextUIProvider>

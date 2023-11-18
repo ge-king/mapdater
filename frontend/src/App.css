@@ -8,30 +8,32 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%; /* Full height */
+  height: 100%; 
   overflow: hidden;
 }
 
 .container {
   position: relative;
-  height: 100vh; /* Adjust the height to fit the viewport */
+  height: 100vh; 
 }
 
 .button-go {
   width: 50%;
 }
 
-
 .button-group {
   display: flex;
-  justify-content: center; /* Adjust as needed */
-  gap: 10px; /* Space between buttons */
+  flex-wrap: wrap; 
+  justify-content: center; 
+  gap: 10px; 
 }
 
-.button-no {
-  background-color: red; /* To make the 'No' button red */
-  color: white; /* Adjust text color if needed */
+.button-group .Button {
+  flex: 1; 
+  max-width: calc(25% - 10px); 
 }
+
+
 .card-body {
   display: flex;
   flex-direction: column;
@@ -42,16 +44,16 @@ html, body {
 
 .centered-card {
   position: absolute;
-  top: 50%;
+  top: 75%;
   left: 50%;
   text-align: 'center';
   width: 25%;
   transform: translate(-50%, -50%);
-  background:  rgba(255, 255, 255, 0.328); /* Semi-transparent white */
-  backdrop-filter: blur(10px); /* Blurred background */
+  background:  rgba(255, 255, 255, 0.328); 
+  backdrop-filter: blur(10px); 
   padding: 20px;
   text-align: center;
-  z-index: 2; /* Above the map */
+  z-index: 2; 
 }
 
 .light .card-text {
@@ -75,31 +77,45 @@ html, body {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0); /* Transparent background */
+  background-color: rgba(255, 255, 255, 0); 
   padding: 20px 25px;
   font-size: 2em;
   font-family: 'Tilt Warp', sans-serif;
-  z-index: 1; /* Ensure it appears above the map */
-  color: white; /* White text color */
-  text-align: left; /* Align text to the left */
+  z-index: 1; 
+  color: white; 
+  text-align: left; 
 }
 
 .footer {
-  position: absolute;
-  bottom: 0; /* Position at the bottom */
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
   width: 100%;
+  background-color: rgba(0, 0, 0, 0.504);
+  padding: 10px 0; 
+  font-size: 0.7em;
+  font-family: 'DM Sans', sans-serif;
+  z-index: 1;
+  color: white;
   text-align: center;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5); /* Transparent background */
-  z-index: 1; /* Ensure it appears above the map */
+  backdrop-filter: blur(10px);
 }
 
 .header {
-  top: 0; /* Position at the top */
+  top: 0; 
 }
 
-.footer {
-  bottom: 10em; /* Position at the bottom */
+.footer a::before {
+  content: " ";
+  padding: 0 0.1em; 
+}
+
+.footer a::after {
+  content: " ";
+  padding: 0 0.1em; 
 }
 
 .map-container {
