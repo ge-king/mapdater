@@ -114,7 +114,7 @@ useEffect(() => {
   }, [darkMode]);
 
   useEffect(() => {
-    axios.get(`https://mapdate-04c9ad419d4c.herokuapp.com/question/${currentQuestionId}`) // Ensure correct protocol and port
+    axios.get(`localhost:5000/question/${currentQuestionId}`) // Ensure correct protocol and port
       .then(response => {
         setQuestionData(response.data);
   
@@ -123,7 +123,7 @@ useEffect(() => {
           const [latitude, longitude] = response.data.latlng;
           map.current.flyTo({
             center: [longitude, latitude],
-            zoom: response.data.zoom 
+            zoom: 3
           });
         }
       })
