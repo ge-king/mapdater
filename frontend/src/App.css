@@ -127,7 +127,7 @@ html, body {
 
 @media (max-width: 600px) {
   .centered-card {
-    
+    top: 60%;
     width: 75%;
     
   }
