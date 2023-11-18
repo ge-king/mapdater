@@ -31,47 +31,23 @@ const App = () => {
   const darkStyle =  'mapbox://styles/georz/clp1avglo01ej01o4dwy2bzgw';
 const lightStyle = 'mapbox://styles/georz/clp0d043500i201qjfixs7wyu'; // Replace with your dark mode style URL
 
-
-const getInitialQuestion = () => {
-  axios.get('https://mapdate-04c9ad419d4c.herokuapp.com/api/initial-question')
-    .then((response) => {
-      // Handle the initial question
-      console.log('Initial question:', response.data);
+const getQuestion = (questionId) => {
+  axios.get(`https://mapdate-04c9ad419d4c.herokuapp.com/question/${questionId}`)
+    .then(response => {
+      setQuestionData(response.data);
+      setCurrentQuestionId(questionId);
     })
-    .catch((error) => {
-      console.error('Error getting initial question:', error);
-    });
-};
-
-const resetQuestion = () => {
-  axios.get('https://mapdate-04c9ad419d4c.herokuapp.com/reset')
-    .then((response) => {
-      console.log(response.data.message);
-      getInitialQuestion(); // Call getInitialQuestion after reset
-    })
-    .catch((error) => {
-      console.error('Error resetting question:', error);
-    });
-};
-
-window.onload = () => {
-  resetQuestion();
+    .catch(error => console.error('Error fetching data:', error));
 };
 
 const handleAnswerButtonClick = (answerKey) => {
-  sendResponse(answerKey);
+  const nextQuestionId = questionData.questions[answerKey];
+  getQuestion(nextQuestionId);
 };
 
-const sendResponse = (answerKey) => {
-  axios.post('https://mapdate-04c9ad419d4c.herokuapp.com/api/response', { response: answerKey })
-    .then((response) => {
-      console.log('New question:', response.data);
-      setQuestionData(response.data); // Update question data with the new question
-    })
-    .catch((error) => {
-      console.error('Error sending response:', error);
-    });
-};
+useEffect(() => {
+  getQuestion(currentQuestionId); // Fetch initial question on component mount
+}, [currentQuestionId]);
 
 
   const toggleDarkMode = () => {
@@ -138,10 +114,22 @@ const sendResponse = (answerKey) => {
   }, [darkMode]);
 
   useEffect(() => {
-    axios.get(`https://mapdate-04c9ad419d4c.herokuapp.com/question/${currentQuestionId}`)
-      .then(response => setQuestionData(response.data))
+    axios.get(`https://mapdate-04c9ad419d4c.herokuapp.com/question/${currentQuestionId}`) // Ensure correct protocol and port
+      .then(response => {
+        setQuestionData(response.data);
+  
+        // Check if map is initialized and question has valid latlng data
+        if (map.current && response.data.latlng && response.data.latlng.length === 2) {
+          const [latitude, longitude] = response.data.latlng;
+          map.current.flyTo({
+            center: [longitude, latitude],
+            zoom: response.data.zoom 
+          });
+        }
+      })
       .catch(error => console.error('Error fetching data:', error));
-  }, [currentQuestionId]);
+  }, [currentQuestionId]); 
+  
 
 
   return (
