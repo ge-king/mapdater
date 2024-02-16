@@ -29,7 +29,7 @@ const App = () => {
   const maxSpinZoom = 5;
   const slowSpinZoom = 3;
   const darkStyle =  'mapbox://styles/georz/clp1avglo01ej01o4dwy2bzgw';
-const lightStyle = 'mapbox://styles/georz/clp0d043500i201qjfixs7wyu'; // Replace with your dark mode style URL
+const lightStyle = 'mapbox://styles/georz/clp0d043500i201qjfixs7wyu';
 
 const getQuestion = (questionId) => {
   axios.get(`https://mapdate-04c9ad419d4c.herokuapp.com/question/${questionId}`)
